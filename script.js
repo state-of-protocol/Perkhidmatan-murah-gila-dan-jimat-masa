@@ -1,7 +1,7 @@
 /**
- * Sentinel-01 · Service Selection + EmailJS (Production Ready)
- * ==============================================================
- * Kredensial EmailJS:
+ * Sentinel-01 · Service Selection + EmailJS (Enhanced Error Handling)
+ * ===================================================================
+ * Kredensial:
  *   Service ID  : service_9tdayy2
  *   Public Key  : Y_QxhS-wHUZgQqzw5
  *   Template ID : template_d4slw59
@@ -146,33 +146,47 @@ class ServiceSelector {
     this.setFormLoading(true);
 
     try {
+      // Bina parameter asas
       const templateParams = {
         from_email: this.emailInput.value.trim(),
         selected_services: Array.from(this.selectedServices).join(', '),
-        message: this.messageInput?.value.trim() || 'Tiada mesej tambahan.',
-        attachment: null
+        message: this.messageInput?.value.trim() || 'Tiada mesej tambahan.'
       };
 
+      // Hanya tambah attachment jika fail dipilih
       if (this.fileInput.files.length > 0) {
         const file = this.fileInput.files[0];
         const base64 = await this.readFileAsBase64(file);
         templateParams.attachment = {
           name: file.name,
           type: file.type,
-          data: base64.split(',')[1]
+          data: base64.split(',')[1] // buang prefix "data:*/*;base64,"
         };
       }
+      // Tiada lagi "attachment: null"
 
-      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+      // Cuba hantar
+      const response = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+      console.log('EmailJS response:', response.status, response.text);
 
       this.showSuccess('Permintaan berjaya dihantar! Kami akan hubungi anda melalui emel dalam masa 24 jam.');
       this.form.reset();
       document.querySelectorAll('.service-card input[type="checkbox"]').forEach(cb => cb.checked = false);
       this.syncFromCheckboxes();
       this.updateUI();
+
     } catch (error) {
+      // Papar butiran ralat di konsol
       console.error('EmailJS error:', error);
-      this.showError('Ralat penghantaran. Sila cuba lagi sebentar lagi.');
+      let errorMessage = 'Ralat penghantaran. ';
+      if (error && error.text) {
+        errorMessage += error.text;
+      } else if (error && error.message) {
+        errorMessage += error.message;
+      } else {
+        errorMessage += 'Sila cuba lagi sebentar lagi.';
+      }
+      this.showError(errorMessage);
     } finally {
       this.setFormLoading(false);
     }
