@@ -1,97 +1,71 @@
 /**
- * Sentinel-01 · Service Selection Controller
- * ==========================================
- * Neat, production‑ready module that manages the service card grid,
- * captures selected services into a hidden JSON field, validates
- * the request form, and submits data asynchronously with feedback.
- *
- * Completely replaces the inline script – zero reliance on inline handlers.
- * Uses clean event delegation, class‑based architecture, and modern ES2020.
+ * Sentinel-01 · Service Selection + EmailJS (Production Ready)
+ * ==============================================================
+ * Kredensial EmailJS:
+ *   Service ID  : service_9tdayy2
+ *   Public Key  : Y_QxhS-wHUZgQqzw5
+ *   Template ID : template_d4slw59
  */
+
+const EMAILJS_PUBLIC_KEY = 'Y_QxhS-wHUZgQqzw5';
+const EMAILJS_SERVICE_ID = 'service_9tdayy2';
+const EMAILJS_TEMPLATE_ID = 'template_d4slw59';
 
 class ServiceSelector {
   constructor() {
-    // DOM references
-    this.cardsContainer = document.querySelector('.grid'); // parent grid of cards
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+
+    this.cardsContainer = document.querySelector('.grid');
     this.hiddenInput = document.getElementById('selected-services-json');
-    this.summaryEl = null; // will be created
     this.form = document.getElementById('service-request-form');
+    this.emailInput = document.getElementById('email');
+    this.messageInput = document.getElementById('message');
     this.fileInput = document.getElementById('attachment');
-    this.submitBtn = this.form?.querySelector('button[type="submit"]');
+    this.submitBtn = this.form.querySelector('button[type="submit"]');
+    this.summaryEl = null;
 
-    // State
     this.selectedServices = new Set();
-
-    // Maximum file size in bytes (10 MB)
     this.MAX_FILE_SIZE = 10 * 1024 * 1024;
 
-    // Bind methods to maintain context
     this.handleCardClick = this.handleCardClick.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
 
-    // Initialize
     this.createSummaryElement();
     this.bindEvents();
   }
 
-  /**
-   * Creates a summary text element and inserts it before the form.
-   */
   createSummaryElement() {
-    if (!this.form) return;
     const section = this.form.closest('section');
     if (!section) return;
-
     this.summaryEl = document.createElement('div');
-    this.summaryEl.className = 'text-sm font-medium text-emerald-700 mb-4 min-h-[1.5rem]';
+    this.summaryEl.className = 'text-sm font-medium text-emerald-300 mb-4 min-h-[1.5rem]';
     this.summaryEl.setAttribute('aria-live', 'polite');
     section.insertBefore(this.summaryEl, this.form);
   }
 
-  /**
-   * Attach event listeners (delegation for cards, submit for form).
-   */
   bindEvents() {
-    // Use event delegation on the cards container for performance
     if (this.cardsContainer) {
       this.cardsContainer.addEventListener('click', this.handleCardClick);
     }
-
-    if (this.form) {
-      this.form.addEventListener('submit', this.handleFormSubmit);
-    }
-
-    // On page load, check if any checkboxes are already checked (edge case)
+    this.form.addEventListener('submit', this.handleFormSubmit);
     this.syncFromCheckboxes();
     this.updateUI();
   }
 
-  /**
-   * Handles clicks inside the card grid: toggles the service if a card is clicked.
-   */
-  handleCardClick(event) {
-    // Find the closest service card ancestor
-    const card = event.target.closest('.service-card');
+  handleCardClick(e) {
+    const card = e.target.closest('.service-card');
     if (!card) return;
-
     const checkbox = card.querySelector('input[type="checkbox"]');
     if (!checkbox) return;
-
-    // Toggle the checkbox state
     checkbox.checked = !checkbox.checked;
-
-    // Update our internal Set and UI
     this.syncFromCheckboxes();
     this.updateUI();
   }
 
-  /**
-   * Synchronizes the internal selectedServices Set from DOM checkboxes.
-   */
   syncFromCheckboxes() {
     this.selectedServices.clear();
-    const checkboxes = document.querySelectorAll('.service-card input[type="checkbox"]:checked');
-    checkboxes.forEach(cb => {
+    const checked = document.querySelectorAll('.service-card input[type="checkbox"]:checked');
+    checked.forEach(cb => {
       const card = cb.closest('.service-card');
       if (card && card.dataset.service) {
         this.selectedServices.add(card.dataset.service);
@@ -99,173 +73,121 @@ class ServiceSelector {
     });
   }
 
-  /**
-   * Updates the hidden JSON input and the summary text.
-   */
   updateUI() {
-    // Update hidden input
     if (this.hiddenInput) {
       this.hiddenInput.value = JSON.stringify(Array.from(this.selectedServices));
     }
-
-    // Update summary
     if (!this.summaryEl) return;
     const count = this.selectedServices.size;
     if (count === 0) {
       this.summaryEl.textContent = '✨ Tiada perkhidmatan dipilih. Sila klik kad untuk memilih.';
-      this.summaryEl.className = 'text-sm font-medium text-slate-500 mb-4 min-h-[1.5rem]';
+      this.summaryEl.className = 'text-sm font-medium text-slate-400 mb-4 min-h-[1.5rem]';
     } else {
-      const abbreviated = Array.from(this.selectedServices).map(s => s.split('-')[1]).join(', ');
-      this.summaryEl.textContent = `✅ ${count} perkhidmatan dipilih: ${abbreviated}`;
-      this.summaryEl.className = 'text-sm font-medium text-emerald-700 mb-4 min-h-[1.5rem]';
+      const list = Array.from(this.selectedServices).map(s => s.split('-')[1]).join(', ');
+      this.summaryEl.textContent = `✅ ${count} perkhidmatan dipilih: ${list}`;
+      this.summaryEl.className = 'text-sm font-medium text-emerald-300 mb-4 min-h-[1.5rem]';
     }
   }
 
-  /**
-   * Validates the form before submission.
-   * @returns {boolean} true if valid
-   */
   validateForm() {
-    // 1. At least one service selected
     if (this.selectedServices.size === 0) {
-      this.showError('Sila pilih sekurang-kurangnya satu perkhidmatan sebelum menghantar permintaan.');
+      this.showError('Sila pilih sekurang-kurangnya satu perkhidmatan.');
       return false;
     }
-
-    // 2. Email format (simple regex)
-    const emailInput = document.getElementById('email');
-    if (emailInput && emailInput.value.trim()) {
-      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailPattern.test(emailInput.value.trim())) {
-        this.showError('Sila masukkan alamat emel yang sah.');
-        return false;
-      }
-    } else {
-      this.showError('Sila isi ruangan emel perniagaan.');
+    const email = this.emailInput?.value.trim();
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      this.showError('Sila masukkan alamat emel yang sah.');
       return false;
     }
-
-    // 3. File size (if any)
-    if (this.fileInput && this.fileInput.files.length > 0) {
-      const file = this.fileInput.files[0];
-      if (file.size > this.MAX_FILE_SIZE) {
-        this.showError('Saiz fail tidak boleh melebihi 10 MB. Sila mampatkan fail atau gunakan pautan awan.');
+    if (this.fileInput.files.length > 0) {
+      if (this.fileInput.files[0].size > this.MAX_FILE_SIZE) {
+        this.showError('Saiz fail tidak boleh melebihi 10 MB.');
         return false;
       }
     }
-
     return true;
   }
 
-  /**
-   * Displays a temporary error message near the submit button.
-   */
   showError(message) {
-    // Remove any existing error toast
-    const oldToast = document.getElementById('form-error-toast');
-    if (oldToast) oldToast.remove();
-
+    const old = document.getElementById('form-toast');
+    if (old) old.remove();
     const toast = document.createElement('div');
-    toast.id = 'form-error-toast';
-    toast.className = 'bg-red-50 border border-red-200 text-red-800 rounded-lg p-3 my-4 text-sm font-medium animate-pulse';
+    toast.id = 'form-toast';
+    toast.className = 'bg-red-900/30 border border-red-800 text-red-300 rounded-lg p-3 my-4 text-sm font-medium animate-pulse';
     toast.textContent = message;
-
-    // Insert before the submit button
-    if (this.submitBtn && this.submitBtn.parentNode) {
-      this.submitBtn.parentNode.insertBefore(toast, this.submitBtn);
-    }
-
-    // Auto-remove after 4 seconds
-    setTimeout(() => {
-      if (toast.parentNode) toast.remove();
-    }, 4000);
+    this.submitBtn.parentNode.insertBefore(toast, this.submitBtn);
+    setTimeout(() => toast.remove(), 4500);
   }
 
-  /**
-   * Handles the form submission: validates, then submits via fetch (no page reload).
-   */
+  showSuccess(message) {
+    const old = document.getElementById('form-toast');
+    if (old) old.remove();
+    const toast = document.createElement('div');
+    toast.id = 'form-toast';
+    toast.className = 'bg-emerald-900/30 border border-emerald-800 text-emerald-300 rounded-lg p-3 my-4 text-sm font-medium';
+    toast.textContent = message;
+    this.submitBtn.parentNode.insertBefore(toast, this.submitBtn);
+    setTimeout(() => toast.remove(), 6000);
+  }
+
+  setFormLoading(isLoading) {
+    if (this.submitBtn) {
+      this.submitBtn.disabled = isLoading;
+      this.submitBtn.textContent = isLoading ? 'Menghantar...' : 'Hantar Permintaan';
+      this.submitBtn.classList.toggle('opacity-70', isLoading);
+      this.submitBtn.classList.toggle('cursor-wait', isLoading);
+    }
+  }
+
   async handleFormSubmit(event) {
     event.preventDefault();
-
     if (!this.validateForm()) return;
 
-    // Disable submit button and show loading state
     this.setFormLoading(true);
 
     try {
-      const formData = new FormData(this.form);
-      // Ensure selected_services is JSON string
-      formData.set('selected_services', JSON.stringify(Array.from(this.selectedServices)));
+      const templateParams = {
+        from_email: this.emailInput.value.trim(),
+        selected_services: Array.from(this.selectedServices).join(', '),
+        message: this.messageInput?.value.trim() || 'Tiada mesej tambahan.',
+        attachment: null
+      };
 
-      // Submit to the form's action (Formspree or custom endpoint)
-      const response = await fetch(this.form.action, {
-        method: 'POST',
-        body: formData,
-        headers: { 'Accept': 'application/json' }
-      });
-
-      if (response.ok) {
-        this.showSuccess('Permintaan berjaya dihantar! Kami akan menghubungi anda dalam masa 24 jam.');
-        this.form.reset();
-        // Uncheck all checkboxes
-        document.querySelectorAll('.service-card input[type="checkbox"]').forEach(cb => cb.checked = false);
-        this.syncFromCheckboxes();
-        this.updateUI();
-      } else {
-        const errorText = await response.text().catch(() => 'Ralat pelayan');
-        this.showError(`Penghantaran gagal: ${errorText}`);
+      if (this.fileInput.files.length > 0) {
+        const file = this.fileInput.files[0];
+        const base64 = await this.readFileAsBase64(file);
+        templateParams.attachment = {
+          name: file.name,
+          type: file.type,
+          data: base64.split(',')[1]
+        };
       }
+
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+
+      this.showSuccess('Permintaan berjaya dihantar! Kami akan hubungi anda melalui emel dalam masa 24 jam.');
+      this.form.reset();
+      document.querySelectorAll('.service-card input[type="checkbox"]').forEach(cb => cb.checked = false);
+      this.syncFromCheckboxes();
+      this.updateUI();
     } catch (error) {
-      this.showError('Ralat rangkaian. Sila cuba lagi.');
+      console.error('EmailJS error:', error);
+      this.showError('Ralat penghantaran. Sila cuba lagi sebentar lagi.');
     } finally {
       this.setFormLoading(false);
     }
   }
 
-  /**
-   * Toggles loading state of the form.
-   */
-  setFormLoading(isLoading) {
-    if (this.submitBtn) {
-      if (isLoading) {
-        this.submitBtn.disabled = true;
-        this.submitBtn.textContent = 'Menghantar...';
-        this.submitBtn.classList.add('opacity-70', 'cursor-wait');
-      } else {
-        this.submitBtn.disabled = false;
-        this.submitBtn.textContent = 'Hantar Permintaan';
-        this.submitBtn.classList.remove('opacity-70', 'cursor-wait');
-      }
-    }
-  }
-
-  /**
-   * Shows a success toast after submission.
-   */
-  showSuccess(message) {
-    // Remove any existing toasts
-    const oldToast = document.getElementById('form-success-toast');
-    if (oldToast) oldToast.remove();
-
-    const toast = document.createElement('div');
-    toast.id = 'form-success-toast';
-    toast.className = 'bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-lg p-3 my-4 text-sm font-medium';
-    toast.textContent = message;
-
-    if (this.submitBtn && this.submitBtn.parentNode) {
-      this.submitBtn.parentNode.insertBefore(toast, this.submitBtn);
-    }
-
-    setTimeout(() => {
-      if (toast.parentNode) toast.remove();
-    }, 6000);
+  readFileAsBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
   }
 }
 
-// ----------------------------------------------------------------------
-// BOOTSTRAP
-// ----------------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
-  // Initialize the service selector
   new ServiceSelector();
 });
