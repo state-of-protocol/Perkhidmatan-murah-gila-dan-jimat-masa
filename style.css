@@ -1,165 +1,177 @@
 /* ============================================================
-   Sentinel-01 Cyberpunk Terminal – Custom Engineering Styles
-   Purpose: High-end ambient effects, terminal glow, scanlines,
-            hacker scrollbars, and subsystem micro-interactions.
-   Compatible: Tailwind CSS utility classes (no overrides).
+   Sentinel-01 · Light Grey Professional Theme
+   Nafas baru: ringan, bersih, dan profesional dengan Google Font
    ============================================================ */
 
-/* ------------------------------------------------------------
-   1. AMBIENT TERMINAL GLOW
-   ------------------------------------------------------------ */
+/* Google Fonts Import (Inter – clean, modern, good light weights) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
 
-/* Main console box – emerald cathode glow */
+/* ------------------------------------------------------------
+   1. GLOBAL RESET & BASE
+   ------------------------------------------------------------ */
+body {
+  background-color: #f8fafc !important; /* slate-50 */
+  color: #334155 !important; /* slate-700 */
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-weight: 300; /* light */
+  transition: background-color 0.3s ease;
+}
+
+/* ------------------------------------------------------------
+   2. OVERRIDE TAILWIND DARK CLASSES (specificity ensures victory)
+   ------------------------------------------------------------ */
+.bg-slate-950, .bg-slate-900, .bg-slate-900\/80, .bg-black {
+  background-color: #ffffff !important; /* white cards */
+  border-color: #e2e8f0 !important; /* slate-200 */
+}
+
+.border-slate-800, .border-slate-700 {
+  border-color: #e2e8f0 !important;
+}
+
+.text-slate-100, .text-slate-300, .text-slate-400, .text-white {
+  color: #334155 !important; /* slate-700 */
+}
+
+.text-slate-500, .text-slate-600 {
+  color: #64748b !important; /* slate-500 */
+}
+
+.text-emerald-400, .text-emerald-500 {
+  color: #059669 !important; /* emerald-600, darker for light bg */
+}
+
+.bg-slate-950 input, .bg-slate-950 textarea {
+  background-color: #f1f5f9 !important; /* slate-100 */
+  border-color: #cbd5e1 !important; /* slate-300 */
+  color: #1e293b !important; /* slate-800 */
+}
+
+/* ------------------------------------------------------------
+   3. CARD & SECTION REFINEMENTS
+   ------------------------------------------------------------ */
+.service-card {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  transition: all 0.2s ease;
+}
+
+.service-card:hover {
+  border-color: #10b981 !important; /* emerald-500 */
+  box-shadow: 0 4px 12px rgba(16,185,129,0.1);
+}
+
+/* Contact form container */
+.max-w-2xl.mx-auto.bg-slate-900\/80 {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+}
+
+/* ------------------------------------------------------------
+   4. TYPOGRAPHY ADJUSTMENTS
+   ------------------------------------------------------------ */
+h1, h2, h3 {
+  font-weight: 600; /* semi-bold instead of extra bold */
+  color: #0f172a !important; /* slate-900 */
+}
+
+h1 .text-emerald-400 {
+  color: #059669 !important; /* emerald-600 */
+}
+
+.text-3xl, .text-4xl, .text-5xl, .text-6xl {
+  font-weight: 600 !important;
+}
+
+code, .font-mono {
+  color: #475569 !important; /* slate-600 */
+  font-weight: 400;
+}
+
+/* ------------------------------------------------------------
+   5. BUTTON & INTERACTIVE ELEMENTS
+   ------------------------------------------------------------ */
+button[type="submit"], .bg-emerald-600 {
+  background-color: #059669 !important; /* emerald-600 */
+  color: #ffffff !important;
+  font-weight: 500;
+}
+
+button[type="submit"]:hover {
+  background-color: #047857 !important; /* emerald-700 */
+}
+
+/* File input button */
+.file\:bg-emerald-600 {
+  background-color: #059669 !important;
+}
+
+/* Status badge */
+.inline-flex.items-center.gap-2.mt-4.px-4.py-1\.5.rounded-full {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* Terminal glow – softened for light theme */
 .terminal-glow {
-  box-shadow:
-    0 0 20px rgba(16, 185, 129, 0.15),
-    inset 0 0 30px rgba(16, 185, 129, 0.05);
-  transition: box-shadow 0.3s ease;
+  box-shadow: 0 0 15px rgba(16,185,129,0.1) !important;
 }
 
-.terminal-glow:hover {
-  box-shadow:
-    0 0 30px rgba(16, 185, 129, 0.25),
-    inset 0 0 40px rgba(16, 185, 129, 0.08);
-}
-
-/* Text glow for live balance / critical metrics */
-.text-glow-emerald {
-  text-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
-  transition: text-shadow 0.2s;
-}
-
-.text-glow-emerald:hover {
-  text-shadow: 0 0 14px rgba(16, 185, 129, 0.8);
-}
-
-/* ------------------------------------------------------------
-   2. PROGRAMMATIC MATRIX SCANLINE EFFECT
-   ------------------------------------------------------------ */
-
-/* Apply this class to the terminal log container to overlay
-   a moving scanline that simulates a vintage CRT monitor.
-   It runs on the GPU via transform for smooth 60fps. */
-.scanline {
-  position: relative;
-  overflow: hidden; /* ensures the pseudo-element stays inside */
-}
-
+/* Scanline – make it barely visible */
 .scanline::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
   background: linear-gradient(
     to bottom,
-    rgba(16, 185, 129, 0.08),
-    rgba(16, 185, 129, 0.2),
-    rgba(16, 185, 129, 0.08)
-  );
-  opacity: 0.6;
-  z-index: 10;
-  pointer-events: none; /* allows clicks through */
-  animation: scanline-move 4s linear infinite;
-  will-change: transform; /* hardware acceleration */
+    rgba(16,185,129,0.03),
+    rgba(16,185,129,0.07),
+    rgba(16,185,129,0.03)
+  ) !important;
 }
 
-@keyframes scanline-move {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(100%);
-  }
-}
-
-/* Optional: subtle screen flicker to enhance the CRT feel */
-@keyframes flicker {
-  0%, 100% { opacity: 0.98; }
-  50% { opacity: 0.96; }
-}
-
-.scanline.flicker {
-  animation: flicker 0.15s infinite;
+/* Subsystem module hover */
+.subsystem-module:hover {
+  background-color: #f0fdf4 !important; /* emerald-50 */
+  border-left-color: #10b981 !important;
 }
 
 /* ------------------------------------------------------------
-   3. HACKER-STYLE CUSTOM SCROLLBAR (Webkit only)
+   6. FOOTER
    ------------------------------------------------------------ */
-
-/* Target our terminal log container with a sleek custom scrollbar */
-#terminal-logs::-webkit-scrollbar {
-  width: 6px;
+footer {
+  border-top-color: #e2e8f0 !important;
+  color: #64748b !important;
 }
 
+/* ------------------------------------------------------------
+   7. CUSTOM SCROLLBAR (lighter version)
+   ------------------------------------------------------------ */
 #terminal-logs::-webkit-scrollbar-track {
-  background: #020617; /* slate-950 */
-  border-radius: 4px;
+  background: #f1f5f9 !important;
 }
 
 #terminal-logs::-webkit-scrollbar-thumb {
-  background: rgba(16, 185, 129, 0.3); /* emerald-500/30 */
-  border-radius: 4px;
-  transition: background 0.2s;
+  background: rgba(16,185,129,0.2) !important;
 }
 
 #terminal-logs::-webkit-scrollbar-thumb:hover {
-  background: rgba(16, 185, 129, 0.6); /* emerald-500/60 */
-}
-
-/* Firefox (limited support, fallback to thin) */
-#terminal-logs {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(16, 185, 129, 0.3) #020617;
+  background: rgba(16,185,129,0.4) !important;
 }
 
 /* ------------------------------------------------------------
-   4. SUBSYSTEM MATRIX ROW HOVER EFFICIENCY
+   8. ANIMATIONS & EFFECTS
    ------------------------------------------------------------ */
-
-/* Apply these classes to each module list item (e.g., li) for
-   a micro-interaction that signals operational readiness.
-   We use a utility class that can be combined with Tailwind. */
-
-.subsystem-module {
-  transition: transform 0.2s ease, border-color 0.2s, background-color 0.2s;
-  border-left: 2px solid transparent;
-  padding-left: 0.5rem;
+/* Subtle hover lift for cards */
+.service-card:hover {
+  transform: translateY(-2px);
 }
 
-.subsystem-module:hover {
-  transform: translateX(4px);
-  border-left-color: rgba(16, 185, 129, 0.7); /* emerald glow */
-  background-color: rgba(16, 185, 129, 0.05);
-  cursor: default;
+/* Text glow adjusted for light background */
+.text-glow-emerald {
+  text-shadow: 0 0 6px rgba(16,185,129,0.2) !important;
 }
 
-/* Optional: subtle shimmer on hover for the bullet */
-.subsystem-module .bullet {
-  transition: box-shadow 0.2s;
-}
-
-.subsystem-module:hover .bullet {
-  box-shadow: 0 0 6px rgba(16, 185, 129, 0.5);
-}
-
-/* ------------------------------------------------------------
-   5. TAILWIND COMPATIBILITY & PERFORMANCE NOTES
-   ------------------------------------------------------------ */
-
-/*
-   All selectors are scoped to custom classes or IDs, never
-   overriding Tailwind's utility classes directly.
-   Hardware-accelerated transforms (translateX, translateY)
-   are used to keep animations on the GPU.
-   No heavy box-shadows are animated except for hover states,
-   keeping repaint costs minimal.
-*/
-
-/* Global smooth font rendering */
-body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
+/* Smooth transitions */
+.service-card, button, input, textarea {
+  transition: all 0.2s ease;
 }
