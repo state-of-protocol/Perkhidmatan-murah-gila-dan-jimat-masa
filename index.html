@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SENTINEL-01 | Autonomous Micro-Billing Engine</title>
+
+  <!-- Tailwind CSS CDN (latest v3) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Optional: force dark colour scheme for GitHub Pages -->
+  <meta name="color-scheme" content="dark" />
+</head>
+<body class="bg-[#0f172a] text-slate-100 font-sans antialiased">
+
+  <!-- Main container -->
+  <div class="max-w-7xl mx-auto p-4 md:p-8">
+
+    <!-- ========== HEADER ========== -->
+    <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+      <!-- Branding -->
+      <div>
+        <h1 class="text-3xl md:text-5xl font-extrabold uppercase tracking-[0.2em] text-white">
+          SENTINEL<span class="text-emerald-400">-01</span>
+        </h1>
+        <p class="text-slate-400 text-sm md:text-base mt-1 font-light tracking-wide">
+          Autonomous Micro-Billing Engine
+        </p>
+      </div>
+
+      <!-- Status badge with live pulse -->
+      <div class="inline-flex items-center gap-2 bg-slate-900 border border-slate-700 px-4 py-2 rounded-full shadow-lg shadow-emerald-900/20">
+        <span class="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse"></span>
+        <span class="text-emerald-400 text-sm md:text-base font-mono tracking-widest uppercase">
+          ENGINE STATUS: ONLINE
+        </span>
+      </div>
+    </header>
+
+    <!-- ========== REAL-TIME METRICS GRID ========== -->
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      <!-- Card 1: Balance -->
+      <div class="bg-slate-900 border border-slate-800 p-6 rounded-lg hover:border-emerald-700 transition-colors">
+        <p class="text-slate-400 text-sm uppercase tracking-wide mb-2">Live Ledger Wallet</p>
+        <span id="balance-display" class="text-3xl md:text-4xl font-bold text-emerald-400 tabular-nums">
+          RM1,099.92
+        </span>
+      </div>
+
+      <!-- Card 2: Active Jobs -->
+      <div class="bg-slate-900 border border-slate-800 p-6 rounded-lg hover:border-emerald-700 transition-colors">
+        <p class="text-slate-400 text-sm uppercase tracking-wide mb-2">Active Autonomous Jobs</p>
+        <span id="jobs-display" class="text-3xl md:text-4xl font-bold text-emerald-400 tabular-nums">
+          4
+        </span>
+      </div>
+
+      <!-- Card 3: Resource Constraints -->
+      <div class="bg-slate-900 border border-slate-800 p-6 rounded-lg hover:border-emerald-700 transition-colors">
+        <p class="text-slate-400 text-sm uppercase tracking-wide mb-2">Resource Constraints Pool</p>
+        <p class="text-lg md:text-xl font-mono text-slate-200">
+          i5-10120U <span class="text-slate-500">|</span> 8GB RAM Optimized
+        </p>
+        <p class="text-xs text-slate-500 mt-1">Compute Arbitrage Node</p>
+      </div>
+    </section>
+
+    <!-- ========== TWO COLUMN ARCHITECTURE ========== -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+      <!-- LEFT: Subsystems Matrix -->
+      <section class="bg-slate-900 border border-slate-800 p-6 rounded-lg">
+        <h2 class="text-lg font-semibold uppercase tracking-wide text-slate-300 mb-4 flex items-center gap-2">
+          <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+          Subsystems Matrix (15 Modules)
+        </h2>
+        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 font-mono text-sm">
+          <li class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
+            <span class="text-slate-300">001-api-microservice</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
+            <span class="text-slate-300">002-data-pipeline</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
+            <span class="text-slate-300">003-web-intelligence</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
+            <span class="text-slate-300">004-document-intelligence</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
+            <span class="text-slate-300">005-communication</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
+            <span class="text-slate-300">006-financial-ops</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
+            <span class="text-slate-300">007-ecommerce</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
+            <span class="text-slate-300">008-content-ops</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
+            <span class="text-slate-300">009-monitoring</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
+            <span class="text-slate-300">010-ai-infra</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
+            <span class="text-slate-300">011-local-malaysia</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
+            <span class="text-slate-300">012-compute-arbitrage</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
+            <span class="text-slate-300">013-data-products</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
+            <span class="text-slate-300">014-compliance</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
+            <span class="text-slate-300">015-marketplace</span>
+          </li>
+        </ul>
+        <p class="text-xs text-slate-500 mt-4 italic">All subsystems integrated — live telemetry active.</p>
+      </section>
+
+      <!-- RIGHT: Capabilities & Engineering Profile -->
+      <section class="bg-slate-900 border border-slate-800 p-6 rounded-lg">
+        <h2 class="text-lg font-semibold uppercase tracking-wide text-slate-300 mb-4 flex items-center gap-2">
+          <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+          Core Capabilities
+        </h2>
+        <div class="space-y-4">
+          <div>
+            <h3 class="text-emerald-400 font-mono text-sm">⚡ Asynchronous Logic</h3>
+            <p class="text-slate-400 text-sm">Event‑loop mastery, Promise chains, concurrent I/O without blocking the main thread.</p>
+          </div>
+          <div>
+            <h3 class="text-emerald-400 font-mono text-sm">🧠 Memory Conservation</h3>
+            <p class="text-slate-400 text-sm">Circular buffers, DOM node limits, lazy loading — every byte counts in a 8GB runtime.</p>
+          </div>
+          <div>
+            <h3 class="text-emerald-400 font-mono text-sm">🔗 Full-Stack API Integration</h3>
+            <p class="text-slate-400 text-sm">RESTful microservices, GraphQL gateways, OAuth2 flows — all connected seamlessly.</p>
+          </div>
+          <div>
+            <h3 class="text-emerald-400 font-mono text-sm">🕶️ Stealth Web Automation</h3>
+            <p class="text-slate-400 text-sm">Headless Puppeteer, anti‑detection fingerprinting, proxy rotation — invisible scraping at scale.</p>
+          </div>
+        </div>
+        <div class="mt-6 pt-4 border-t border-slate-800">
+          <p class="text-xs text-slate-500">Derived from <code class="text-slate-400">skills.md</code> — hardened for production.</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- ========== TERMINAL MONITOR ========== -->
+    <section class="mb-8">
+      <!-- Terminal box -->
+      <div class="w-full bg-black rounded-lg border border-slate-800 p-4 font-mono text-sm shadow-2xl shadow-emerald-900/10">
+        <!-- Fake title bar -->
+        <div class="flex items-center justify-between mb-2 text-xs text-slate-400 select-none">
+          <div class="flex gap-1.5">
+            <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+            <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
+            <span class="w-3 h-3 rounded-full bg-green-500/80"></span>
+          </div>
+          <span class="text-slate-500">sentinel01@core-engine: ~</span>
+          <div><!-- spacer --></div>
+        </div>
+        <!-- Live log output (filled by script.js) -->
+        <div id="terminal-logs" class="h-64 overflow-y-auto pr-2 scroll-smooth space-y-0.5 text-emerald-300">
+          <!-- Dynamic log lines will appear here -->
+        </div>
+      </div>
+      <p class="text-xs text-slate-600 mt-2 text-right italic">Streaming 15‑module telemetry … micro‑billing active.</p>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="border-t border-slate-800 pt-6 mt-8 text-center text-xs text-slate-500 space-y-1">
+      <p>&copy; 2025 SENTINEL-01 Architecture. All rights reserved.</p>
+      <p>Designed by Solo Founder / System Architect</p>
+      <p>Target: Cloud VPS Subsystem &nbsp;|&nbsp; Front-end: GitHub Pages</p>
+    </footer>
+  </div>
+
+  <!-- External modular script (deferred to not block rendering) -->
+  <script src="script.js" defer></script>
+</body>
+</html>

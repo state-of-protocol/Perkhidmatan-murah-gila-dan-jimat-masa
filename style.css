@@ -1,0 +1,165 @@
+/* ============================================================
+   Sentinel-01 Cyberpunk Terminal – Custom Engineering Styles
+   Purpose: High-end ambient effects, terminal glow, scanlines,
+            hacker scrollbars, and subsystem micro-interactions.
+   Compatible: Tailwind CSS utility classes (no overrides).
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. AMBIENT TERMINAL GLOW
+   ------------------------------------------------------------ */
+
+/* Main console box – emerald cathode glow */
+.terminal-glow {
+  box-shadow:
+    0 0 20px rgba(16, 185, 129, 0.15),
+    inset 0 0 30px rgba(16, 185, 129, 0.05);
+  transition: box-shadow 0.3s ease;
+}
+
+.terminal-glow:hover {
+  box-shadow:
+    0 0 30px rgba(16, 185, 129, 0.25),
+    inset 0 0 40px rgba(16, 185, 129, 0.08);
+}
+
+/* Text glow for live balance / critical metrics */
+.text-glow-emerald {
+  text-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+  transition: text-shadow 0.2s;
+}
+
+.text-glow-emerald:hover {
+  text-shadow: 0 0 14px rgba(16, 185, 129, 0.8);
+}
+
+/* ------------------------------------------------------------
+   2. PROGRAMMATIC MATRIX SCANLINE EFFECT
+   ------------------------------------------------------------ */
+
+/* Apply this class to the terminal log container to overlay
+   a moving scanline that simulates a vintage CRT monitor.
+   It runs on the GPU via transform for smooth 60fps. */
+.scanline {
+  position: relative;
+  overflow: hidden; /* ensures the pseudo-element stays inside */
+}
+
+.scanline::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(
+    to bottom,
+    rgba(16, 185, 129, 0.08),
+    rgba(16, 185, 129, 0.2),
+    rgba(16, 185, 129, 0.08)
+  );
+  opacity: 0.6;
+  z-index: 10;
+  pointer-events: none; /* allows clicks through */
+  animation: scanline-move 4s linear infinite;
+  will-change: transform; /* hardware acceleration */
+}
+
+@keyframes scanline-move {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+/* Optional: subtle screen flicker to enhance the CRT feel */
+@keyframes flicker {
+  0%, 100% { opacity: 0.98; }
+  50% { opacity: 0.96; }
+}
+
+.scanline.flicker {
+  animation: flicker 0.15s infinite;
+}
+
+/* ------------------------------------------------------------
+   3. HACKER-STYLE CUSTOM SCROLLBAR (Webkit only)
+   ------------------------------------------------------------ */
+
+/* Target our terminal log container with a sleek custom scrollbar */
+#terminal-logs::-webkit-scrollbar {
+  width: 6px;
+}
+
+#terminal-logs::-webkit-scrollbar-track {
+  background: #020617; /* slate-950 */
+  border-radius: 4px;
+}
+
+#terminal-logs::-webkit-scrollbar-thumb {
+  background: rgba(16, 185, 129, 0.3); /* emerald-500/30 */
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+#terminal-logs::-webkit-scrollbar-thumb:hover {
+  background: rgba(16, 185, 129, 0.6); /* emerald-500/60 */
+}
+
+/* Firefox (limited support, fallback to thin) */
+#terminal-logs {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(16, 185, 129, 0.3) #020617;
+}
+
+/* ------------------------------------------------------------
+   4. SUBSYSTEM MATRIX ROW HOVER EFFICIENCY
+   ------------------------------------------------------------ */
+
+/* Apply these classes to each module list item (e.g., li) for
+   a micro-interaction that signals operational readiness.
+   We use a utility class that can be combined with Tailwind. */
+
+.subsystem-module {
+  transition: transform 0.2s ease, border-color 0.2s, background-color 0.2s;
+  border-left: 2px solid transparent;
+  padding-left: 0.5rem;
+}
+
+.subsystem-module:hover {
+  transform: translateX(4px);
+  border-left-color: rgba(16, 185, 129, 0.7); /* emerald glow */
+  background-color: rgba(16, 185, 129, 0.05);
+  cursor: default;
+}
+
+/* Optional: subtle shimmer on hover for the bullet */
+.subsystem-module .bullet {
+  transition: box-shadow 0.2s;
+}
+
+.subsystem-module:hover .bullet {
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.5);
+}
+
+/* ------------------------------------------------------------
+   5. TAILWIND COMPATIBILITY & PERFORMANCE NOTES
+   ------------------------------------------------------------ */
+
+/*
+   All selectors are scoped to custom classes or IDs, never
+   overriding Tailwind's utility classes directly.
+   Hardware-accelerated transforms (translateX, translateY)
+   are used to keep animations on the GPU.
+   No heavy box-shadows are animated except for hover states,
+   keeping repaint costs minimal.
+*/
+
+/* Global smooth font rendering */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
