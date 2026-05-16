@@ -3,202 +3,393 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SENTINEL-01 | Autonomous Micro-Billing Engine</title>
+  <title>Sentinel-01 · Service Selection Console</title>
 
-  <!-- Tailwind CSS CDN (latest v3) -->
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Optional: force dark colour scheme for GitHub Pages -->
-  <meta name="color-scheme" content="dark" />
+  <!-- Custom accent styles (from your styles.css) -->
+  <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="bg-[#0f172a] text-slate-100 font-sans antialiased">
+<body class="bg-slate-950 text-slate-100 font-sans antialiased">
 
-  <!-- Main container -->
-  <div class="max-w-7xl mx-auto p-4 md:p-8">
+  <!-- ========== MAIN CONTAINER ========== -->
+  <main class="max-w-7xl mx-auto px-4 py-10 md:px-8 md:py-14">
 
     <!-- ========== HEADER ========== -->
-    <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-      <!-- Branding -->
-      <div>
-        <h1 class="text-3xl md:text-5xl font-extrabold uppercase tracking-[0.2em] text-white">
-          SENTINEL<span class="text-emerald-400">-01</span>
-        </h1>
-        <p class="text-slate-400 text-sm md:text-base mt-1 font-light tracking-wide">
-          Autonomous Micro-Billing Engine
-        </p>
+    <div class="text-center mb-12">
+      <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white">
+        Sentinel<span class="text-emerald-400">-01</span>
+      </h1>
+      <p class="mt-3 text-lg md:text-xl text-slate-400 font-light max-w-2xl mx-auto">
+        Pilih perkhidmatan autonomi yang anda perlukan.<br class="hidden sm:block" />
+        Hantar permintaan terus — mudah, pantas, profesional.
+      </p>
+      <!-- Live indicator for consistency -->
+      <div class="inline-flex items-center gap-2 mt-4 px-4 py-1.5 rounded-full bg-slate-900 border border-slate-800">
+        <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+        <span class="text-xs font-mono text-emerald-400 uppercase tracking-widest">Services Active</span>
       </div>
-
-      <!-- Status badge with live pulse -->
-      <div class="inline-flex items-center gap-2 bg-slate-900 border border-slate-700 px-4 py-2 rounded-full shadow-lg shadow-emerald-900/20">
-        <span class="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse"></span>
-        <span class="text-emerald-400 text-sm md:text-base font-mono tracking-widest uppercase">
-          ENGINE STATUS: ONLINE
-        </span>
-      </div>
-    </header>
-
-    <!-- ========== REAL-TIME METRICS GRID ========== -->
-    <section class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-      <!-- Card 1: Balance -->
-      <div class="bg-slate-900 border border-slate-800 p-6 rounded-lg hover:border-emerald-700 transition-colors">
-        <p class="text-slate-400 text-sm uppercase tracking-wide mb-2">Live Ledger Wallet</p>
-        <span id="balance-display" class="text-3xl md:text-4xl font-bold text-emerald-400 tabular-nums">
-          RM1,099.92
-        </span>
-      </div>
-
-      <!-- Card 2: Active Jobs -->
-      <div class="bg-slate-900 border border-slate-800 p-6 rounded-lg hover:border-emerald-700 transition-colors">
-        <p class="text-slate-400 text-sm uppercase tracking-wide mb-2">Active Autonomous Jobs</p>
-        <span id="jobs-display" class="text-3xl md:text-4xl font-bold text-emerald-400 tabular-nums">
-          4
-        </span>
-      </div>
-
-      <!-- Card 3: Resource Constraints -->
-      <div class="bg-slate-900 border border-slate-800 p-6 rounded-lg hover:border-emerald-700 transition-colors">
-        <p class="text-slate-400 text-sm uppercase tracking-wide mb-2">Resource Constraints Pool</p>
-        <p class="text-lg md:text-xl font-mono text-slate-200">
-          i5-10120U <span class="text-slate-500">|</span> 8GB RAM Optimized
-        </p>
-        <p class="text-xs text-slate-500 mt-1">Compute Arbitrage Node</p>
-      </div>
-    </section>
-
-    <!-- ========== TWO COLUMN ARCHITECTURE ========== -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-      <!-- LEFT: Subsystems Matrix -->
-      <section class="bg-slate-900 border border-slate-800 p-6 rounded-lg">
-        <h2 class="text-lg font-semibold uppercase tracking-wide text-slate-300 mb-4 flex items-center gap-2">
-          <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
-          Subsystems Matrix (15 Modules)
-        </h2>
-        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 font-mono text-sm">
-          <li class="flex items-center gap-2">
-            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
-            <span class="text-slate-300">001-api-microservice</span>
-          </li>
-          <li class="flex items-center gap-2">
-            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
-            <span class="text-slate-300">002-data-pipeline</span>
-          </li>
-          <li class="flex items-center gap-2">
-            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
-            <span class="text-slate-300">003-web-intelligence</span>
-          </li>
-          <li class="flex items-center gap-2">
-            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
-            <span class="text-slate-300">004-document-intelligence</span>
-          </li>
-          <li class="flex items-center gap-2">
-            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
-            <span class="text-slate-300">005-communication</span>
-          </li>
-          <li class="flex items-center gap-2">
-            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
-            <span class="text-slate-300">006-financial-ops</span>
-          </li>
-          <li class="flex items-center gap-2">
-            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
-            <span class="text-slate-300">007-ecommerce</span>
-          </li>
-          <li class="flex items-center gap-2">
-            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
-            <span class="text-slate-300">008-content-ops</span>
-          </li>
-          <li class="flex items-center gap-2">
-            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
-            <span class="text-slate-300">009-monitoring</span>
-          </li>
-          <li class="flex items-center gap-2">
-            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
-            <span class="text-slate-300">010-ai-infra</span>
-          </li>
-          <li class="flex items-center gap-2">
-            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
-            <span class="text-slate-300">011-local-malaysia</span>
-          </li>
-          <li class="flex items-center gap-2">
-            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
-            <span class="text-slate-300">012-compute-arbitrage</span>
-          </li>
-          <li class="flex items-center gap-2">
-            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
-            <span class="text-slate-300">013-data-products</span>
-          </li>
-          <li class="flex items-center gap-2">
-            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
-            <span class="text-slate-300">014-compliance</span>
-          </li>
-          <li class="flex items-center gap-2">
-            <span class="w-2 h-2 bg-emerald-600 rounded-full shrink-0"></span>
-            <span class="text-slate-300">015-marketplace</span>
-          </li>
-        </ul>
-        <p class="text-xs text-slate-500 mt-4 italic">All subsystems integrated — live telemetry active.</p>
-      </section>
-
-      <!-- RIGHT: Capabilities & Engineering Profile -->
-      <section class="bg-slate-900 border border-slate-800 p-6 rounded-lg">
-        <h2 class="text-lg font-semibold uppercase tracking-wide text-slate-300 mb-4 flex items-center gap-2">
-          <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
-          Core Capabilities
-        </h2>
-        <div class="space-y-4">
-          <div>
-            <h3 class="text-emerald-400 font-mono text-sm">⚡ Asynchronous Logic</h3>
-            <p class="text-slate-400 text-sm">Event‑loop mastery, Promise chains, concurrent I/O without blocking the main thread.</p>
-          </div>
-          <div>
-            <h3 class="text-emerald-400 font-mono text-sm">🧠 Memory Conservation</h3>
-            <p class="text-slate-400 text-sm">Circular buffers, DOM node limits, lazy loading — every byte counts in a 8GB runtime.</p>
-          </div>
-          <div>
-            <h3 class="text-emerald-400 font-mono text-sm">🔗 Full-Stack API Integration</h3>
-            <p class="text-slate-400 text-sm">RESTful microservices, GraphQL gateways, OAuth2 flows — all connected seamlessly.</p>
-          </div>
-          <div>
-            <h3 class="text-emerald-400 font-mono text-sm">🕶️ Stealth Web Automation</h3>
-            <p class="text-slate-400 text-sm">Headless Puppeteer, anti‑detection fingerprinting, proxy rotation — invisible scraping at scale.</p>
-          </div>
-        </div>
-        <div class="mt-6 pt-4 border-t border-slate-800">
-          <p class="text-xs text-slate-500">Derived from <code class="text-slate-400">skills.md</code> — hardened for production.</p>
-        </div>
-      </section>
     </div>
 
-    <!-- ========== TERMINAL MONITOR ========== -->
-    <section class="mb-8">
-      <!-- Terminal box -->
-      <div class="w-full bg-black rounded-lg border border-slate-800 p-4 font-mono text-sm shadow-2xl shadow-emerald-900/10">
-        <!-- Fake title bar -->
-        <div class="flex items-center justify-between mb-2 text-xs text-slate-400 select-none">
-          <div class="flex gap-1.5">
-            <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
-            <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
-            <span class="w-3 h-3 rounded-full bg-green-500/80"></span>
+    <!-- ========== SERVICE SELECTION GRID ========== -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
+      <!-- Service cards will be generated dynamically via JS, but we could also hardcode.
+           For maintainability, I'll define them in a script, but for pure HTML I'll hardcode 15 cards. -->
+
+      <!-- 001-api-microservice -->
+      <div class="service-card group relative bg-slate-900/80 border border-slate-800 rounded-xl p-5 hover:border-emerald-600 transition-all duration-200 cursor-pointer select-none"
+           data-service="001-api-microservice">
+        <input type="checkbox" class="sr-only peer" name="services" value="001-api-microservice">
+        <div class="flex items-start gap-3">
+          <span class="w-2 h-2 mt-1.5 bg-emerald-500 rounded-full shrink-0 group-hover:shadow-emerald-500/50 group-hover:shadow-sm transition-shadow"></span>
+          <div>
+            <h3 class="text-white font-semibold text-lg">API Microservice</h3>
+            <p class="text-slate-400 text-sm mt-1">Permintaan API berprestasi tinggi untuk integrasi moden.</p>
+            <code class="text-xs text-slate-600 mt-2 block">001-api-microservice</code>
           </div>
-          <span class="text-slate-500">sentinel01@core-engine: ~</span>
-          <div><!-- spacer --></div>
         </div>
-        <!-- Live log output (filled by script.js) -->
-        <div id="terminal-logs" class="h-64 overflow-y-auto pr-2 scroll-smooth space-y-0.5 text-emerald-300">
-          <!-- Dynamic log lines will appear here -->
-        </div>
+        <!-- border left indicator on peer-checked -->
+        <div class="absolute inset-0 border-2 border-emerald-500 rounded-xl opacity-0 peer-checked:opacity-100 transition pointer-events-none"></div>
       </div>
-      <p class="text-xs text-slate-600 mt-2 text-right italic">Streaming 15‑module telemetry … micro‑billing active.</p>
+
+      <!-- 002-data-pipeline -->
+      <div class="service-card group relative bg-slate-900/80 border border-slate-800 rounded-xl p-5 hover:border-emerald-600 transition-all duration-200 cursor-pointer select-none"
+           data-service="002-data-pipeline">
+        <input type="checkbox" class="sr-only peer" name="services" value="002-data-pipeline">
+        <div class="flex items-start gap-3">
+          <span class="w-2 h-2 mt-1.5 bg-emerald-500 rounded-full shrink-0 group-hover:shadow-emerald-500/50 group-hover:shadow-sm transition-shadow"></span>
+          <div>
+            <h3 class="text-white font-semibold text-lg">Data Pipeline</h3>
+            <p class="text-slate-400 text-sm mt-1">Aliran pembersihan & transformasi data automatik.</p>
+            <code class="text-xs text-slate-600 mt-2 block">002-data-pipeline</code>
+          </div>
+        </div>
+        <div class="absolute inset-0 border-2 border-emerald-500 rounded-xl opacity-0 peer-checked:opacity-100 transition pointer-events-none"></div>
+      </div>
+
+      <!-- 003-web-intelligence -->
+      <div class="service-card group relative bg-slate-900/80 border border-slate-800 rounded-xl p-5 hover:border-emerald-600 transition-all duration-200 cursor-pointer select-none"
+           data-service="003-web-intelligence">
+        <input type="checkbox" class="sr-only peer" name="services" value="003-web-intelligence">
+        <div class="flex items-start gap-3">
+          <span class="w-2 h-2 mt-1.5 bg-emerald-500 rounded-full shrink-0 group-hover:shadow-emerald-500/50 group-hover:shadow-sm transition-shadow"></span>
+          <div>
+            <h3 class="text-white font-semibold text-lg">Web Intelligence</h3>
+            <p class="text-slate-400 text-sm mt-1">Automasi capaian web pintar dengan ejen halimunan.</p>
+            <code class="text-xs text-slate-600 mt-2 block">003-web-intelligence</code>
+          </div>
+        </div>
+        <div class="absolute inset-0 border-2 border-emerald-500 rounded-xl opacity-0 peer-checked:opacity-100 transition pointer-events-none"></div>
+      </div>
+
+      <!-- 004-document-intelligence -->
+      <div class="service-card group relative bg-slate-900/80 border border-slate-800 rounded-xl p-5 hover:border-emerald-600 transition-all duration-200 cursor-pointer select-none"
+           data-service="004-document-intelligence">
+        <input type="checkbox" class="sr-only peer" name="services" value="004-document-intelligence">
+        <div class="flex items-start gap-3">
+          <span class="w-2 h-2 mt-1.5 bg-emerald-500 rounded-full shrink-0 group-hover:shadow-emerald-500/50 group-hover:shadow-sm transition-shadow"></span>
+          <div>
+            <h3 class="text-white font-semibold text-lg">Document Intelligence</h3>
+            <p class="text-slate-400 text-sm mt-1">Pengekstrakan entiti & OCR untuk dokumen kompleks.</p>
+            <code class="text-xs text-slate-600 mt-2 block">004-document-intelligence</code>
+          </div>
+        </div>
+        <div class="absolute inset-0 border-2 border-emerald-500 rounded-xl opacity-0 peer-checked:opacity-100 transition pointer-events-none"></div>
+      </div>
+
+      <!-- 005-communication -->
+      <div class="service-card group relative bg-slate-900/80 border border-slate-800 rounded-xl p-5 hover:border-emerald-600 transition-all duration-200 cursor-pointer select-none"
+           data-service="005-communication">
+        <input type="checkbox" class="sr-only peer" name="services" value="005-communication">
+        <div class="flex items-start gap-3">
+          <span class="w-2 h-2 mt-1.5 bg-emerald-500 rounded-full shrink-0 group-hover:shadow-emerald-500/50 group-hover:shadow-sm transition-shadow"></span>
+          <div>
+            <h3 class="text-white font-semibold text-lg">Communication</h3>
+            <p class="text-slate-400 text-sm mt-1">Notifikasi multi‑saluran (email, Slack, webhook).</p>
+            <code class="text-xs text-slate-600 mt-2 block">005-communication</code>
+          </div>
+        </div>
+        <div class="absolute inset-0 border-2 border-emerald-500 rounded-xl opacity-0 peer-checked:opacity-100 transition pointer-events-none"></div>
+      </div>
+
+      <!-- 006-financial-ops -->
+      <div class="service-card group relative bg-slate-900/80 border border-slate-800 rounded-xl p-5 hover:border-emerald-600 transition-all duration-200 cursor-pointer select-none"
+           data-service="006-financial-ops">
+        <input type="checkbox" class="sr-only peer" name="services" value="006-financial-ops">
+        <div class="flex items-start gap-3">
+          <span class="w-2 h-2 mt-1.5 bg-emerald-500 rounded-full shrink-0 group-hover:shadow-emerald-500/50 group-hover:shadow-sm transition-shadow"></span>
+          <div>
+            <h3 class="text-white font-semibold text-lg">Financial Ops</h3>
+            <p class="text-slate-400 text-sm mt-1">Pengebilan mikro automatik & penjejakan kos masa nyata.</p>
+            <code class="text-xs text-slate-600 mt-2 block">006-financial-ops</code>
+          </div>
+        </div>
+        <div class="absolute inset-0 border-2 border-emerald-500 rounded-xl opacity-0 peer-checked:opacity-100 transition pointer-events-none"></div>
+      </div>
+
+      <!-- 007-ecommerce -->
+      <div class="service-card group relative bg-slate-900/80 border border-slate-800 rounded-xl p-5 hover:border-emerald-600 transition-all duration-200 cursor-pointer select-none"
+           data-service="007-ecommerce">
+        <input type="checkbox" class="sr-only peer" name="services" value="007-ecommerce">
+        <div class="flex items-start gap-3">
+          <span class="w-2 h-2 mt-1.5 bg-emerald-500 rounded-full shrink-0 group-hover:shadow-emerald-500/50 group-hover:shadow-sm transition-shadow"></span>
+          <div>
+            <h3 class="text-white font-semibold text-lg">E‑commerce</h3>
+            <p class="text-slate-400 text-sm mt-1">Penjanaan produk dinamik & pemantauan pasaran.</p>
+            <code class="text-xs text-slate-600 mt-2 block">007-ecommerce</code>
+          </div>
+        </div>
+        <div class="absolute inset-0 border-2 border-emerald-500 rounded-xl opacity-0 peer-checked:opacity-100 transition pointer-events-none"></div>
+      </div>
+
+      <!-- 008-content-ops -->
+      <div class="service-card group relative bg-slate-900/80 border border-slate-800 rounded-xl p-5 hover:border-emerald-600 transition-all duration-200 cursor-pointer select-none"
+           data-service="008-content-ops">
+        <input type="checkbox" class="sr-only peer" name="services" value="008-content-ops">
+        <div class="flex items-start gap-3">
+          <span class="w-2 h-2 mt-1.5 bg-emerald-500 rounded-full shrink-0 group-hover:shadow-emerald-500/50 group-hover:shadow-sm transition-shadow"></span>
+          <div>
+            <h3 class="text-white font-semibold text-lg">Content Ops</h3>
+            <p class="text-slate-400 text-sm mt-1">Pengurusan kandungan berbilang bahasa automatik.</p>
+            <code class="text-xs text-slate-600 mt-2 block">008-content-ops</code>
+          </div>
+        </div>
+        <div class="absolute inset-0 border-2 border-emerald-500 rounded-xl opacity-0 peer-checked:opacity-100 transition pointer-events-none"></div>
+      </div>
+
+      <!-- 009-monitoring -->
+      <div class="service-card group relative bg-slate-900/80 border border-slate-800 rounded-xl p-5 hover:border-emerald-600 transition-all duration-200 cursor-pointer select-none"
+           data-service="009-monitoring">
+        <input type="checkbox" class="sr-only peer" name="services" value="009-monitoring">
+        <div class="flex items-start gap-3">
+          <span class="w-2 h-2 mt-1.5 bg-emerald-500 rounded-full shrink-0 group-hover:shadow-emerald-500/50 group-hover:shadow-sm transition-shadow"></span>
+          <div>
+            <h3 class="text-white font-semibold text-lg">Monitoring</h3>
+            <p class="text-slate-400 text-sm mt-1">Pemantauan infrastruktur masa nyata & amaran.</p>
+            <code class="text-xs text-slate-600 mt-2 block">009-monitoring</code>
+          </div>
+        </div>
+        <div class="absolute inset-0 border-2 border-emerald-500 rounded-xl opacity-0 peer-checked:opacity-100 transition pointer-events-none"></div>
+      </div>
+
+      <!-- 010-ai-infra -->
+      <div class="service-card group relative bg-slate-900/80 border border-slate-800 rounded-xl p-5 hover:border-emerald-600 transition-all duration-200 cursor-pointer select-none"
+           data-service="010-ai-infra">
+        <input type="checkbox" class="sr-only peer" name="services" value="010-ai-infra">
+        <div class="flex items-start gap-3">
+          <span class="w-2 h-2 mt-1.5 bg-emerald-500 rounded-full shrink-0 group-hover:shadow-emerald-500/50 group-hover:shadow-sm transition-shadow"></span>
+          <div>
+            <h3 class="text-white font-semibold text-lg">AI Infra</h3>
+            <p class="text-slate-400 text-sm mt-1">Inferens model LLM pada GPU kluster dioptimumkan.</p>
+            <code class="text-xs text-slate-600 mt-2 block">010-ai-infra</code>
+          </div>
+        </div>
+        <div class="absolute inset-0 border-2 border-emerald-500 rounded-xl opacity-0 peer-checked:opacity-100 transition pointer-events-none"></div>
+      </div>
+
+      <!-- 011-local-malaysia -->
+      <div class="service-card group relative bg-slate-900/80 border border-slate-800 rounded-xl p-5 hover:border-emerald-600 transition-all duration-200 cursor-pointer select-none"
+           data-service="011-local-malaysia">
+        <input type="checkbox" class="sr-only peer" name="services" value="011-local-malaysia">
+        <div class="flex items-start gap-3">
+          <span class="w-2 h-2 mt-1.5 bg-emerald-500 rounded-full shrink-0 group-hover:shadow-emerald-500/50 group-hover:shadow-sm transition-shadow"></span>
+          <div>
+            <h3 class="text-white font-semibold text-lg">Local Malaysia</h3>
+            <p class="text-slate-400 text-sm mt-1">Pematuhan peraturan tempatan & penyesuaian serantau.</p>
+            <code class="text-xs text-slate-600 mt-2 block">011-local-malaysia</code>
+          </div>
+        </div>
+        <div class="absolute inset-0 border-2 border-emerald-500 rounded-xl opacity-0 peer-checked:opacity-100 transition pointer-events-none"></div>
+      </div>
+
+      <!-- 012-compute-arbitrage -->
+      <div class="service-card group relative bg-slate-900/80 border border-slate-800 rounded-xl p-5 hover:border-emerald-600 transition-all duration-200 cursor-pointer select-none"
+           data-service="012-compute-arbitrage">
+        <input type="checkbox" class="sr-only peer" name="services" value="012-compute-arbitrage">
+        <div class="flex items-start gap-3">
+          <span class="w-2 h-2 mt-1.5 bg-emerald-500 rounded-full shrink-0 group-hover:shadow-emerald-500/50 group-hover:shadow-sm transition-shadow"></span>
+          <div>
+            <h3 class="text-white font-semibold text-lg">Compute Arbitrage</h3>
+            <p class="text-slate-400 text-sm mt-1">Penjimatan kos pengkomputeran sehingga 40%.</p>
+            <code class="text-xs text-slate-600 mt-2 block">012-compute-arbitrage</code>
+          </div>
+        </div>
+        <div class="absolute inset-0 border-2 border-emerald-500 rounded-xl opacity-0 peer-checked:opacity-100 transition pointer-events-none"></div>
+      </div>
+
+      <!-- 013-data-products -->
+      <div class="service-card group relative bg-slate-900/80 border border-slate-800 rounded-xl p-5 hover:border-emerald-600 transition-all duration-200 cursor-pointer select-none"
+           data-service="013-data-products">
+        <input type="checkbox" class="sr-only peer" name="services" value="013-data-products">
+        <div class="flex items-start gap-3">
+          <span class="w-2 h-2 mt-1.5 bg-emerald-500 rounded-full shrink-0 group-hover:shadow-emerald-500/50 group-hover:shadow-sm transition-shadow"></span>
+          <div>
+            <h3 class="text-white font-semibold text-lg">Data Products</h3>
+            <p class="text-slate-400 text-sm mt-1">Set data terkurasi sedia untuk analitik lanjutan.</p>
+            <code class="text-xs text-slate-600 mt-2 block">013-data-products</code>
+          </div>
+        </div>
+        <div class="absolute inset-0 border-2 border-emerald-500 rounded-xl opacity-0 peer-checked:opacity-100 transition pointer-events-none"></div>
+      </div>
+
+      <!-- 014-compliance -->
+      <div class="service-card group relative bg-slate-900/80 border border-slate-800 rounded-xl p-5 hover:border-emerald-600 transition-all duration-200 cursor-pointer select-none"
+           data-service="014-compliance">
+        <input type="checkbox" class="sr-only peer" name="services" value="014-compliance">
+        <div class="flex items-start gap-3">
+          <span class="w-2 h-2 mt-1.5 bg-emerald-500 rounded-full shrink-0 group-hover:shadow-emerald-500/50 group-hover:shadow-sm transition-shadow"></span>
+          <div>
+            <h3 class="text-white font-semibold text-lg">Compliance</h3>
+            <p class="text-slate-400 text-sm mt-1">Pengesanan anti‑jejak & pematuhan dasar data.</p>
+            <code class="text-xs text-slate-600 mt-2 block">014-compliance</code>
+          </div>
+        </div>
+        <div class="absolute inset-0 border-2 border-emerald-500 rounded-xl opacity-0 peer-checked:opacity-100 transition pointer-events-none"></div>
+      </div>
+
+      <!-- 015-marketplace -->
+      <div class="service-card group relative bg-slate-900/80 border border-slate-800 rounded-xl p-5 hover:border-emerald-600 transition-all duration-200 cursor-pointer select-none"
+           data-service="015-marketplace">
+        <input type="checkbox" class="sr-only peer" name="services" value="015-marketplace">
+        <div class="flex items-start gap-3">
+          <span class="w-2 h-2 mt-1.5 bg-emerald-500 rounded-full shrink-0 group-hover:shadow-emerald-500/50 group-hover:shadow-sm transition-shadow"></span>
+          <div>
+            <h3 class="text-white font-semibold text-lg">Marketplace</h3>
+            <p class="text-slate-400 text-sm mt-1">Penyelarasan inventori & pesanan merentas platform.</p>
+            <code class="text-xs text-slate-600 mt-2 block">015-marketplace</code>
+          </div>
+        </div>
+        <div class="absolute inset-0 border-2 border-emerald-500 rounded-xl opacity-0 peer-checked:opacity-100 transition pointer-events-none"></div>
+      </div>
+    </div> <!-- end grid -->
+
+    <!-- ========== CONTACT / REQUEST FORM ========== -->
+    <section class="max-w-2xl mx-auto bg-slate-900/80 border border-slate-800 rounded-2xl p-6 md:p-8 backdrop-blur">
+      <h2 class="text-2xl font-bold text-white mb-2">Hantar Permintaan</h2>
+      <p class="text-slate-400 text-sm mb-6">Pilih perkhidmatan di atas, kemudian isi butiran. Kami akan maklum balas dalam masa 24 jam.</p>
+
+      <form id="service-request-form"
+            action="https://formspree.io/f/your-form-id"  <!-- Ganti dengan endpoint anda -->
+            method="POST"
+            enctype="multipart/form-data"
+            class="space-y-5">
+
+        <!-- Hidden input to accumulate selected services as JSON -->
+        <input type="hidden" name="selected_services" id="selected-services-json" value="[]" />
+
+        <!-- Email field -->
+        <div>
+          <label for="email" class="block text-sm font-medium text-slate-300 mb-1">Emel Perniagaan</label>
+          <input type="email" id="email" name="email" required
+                 class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition"
+                 placeholder="anda@contoh.com" />
+        </div>
+
+        <!-- Message (optional) -->
+        <div>
+          <label for="message" class="block text-sm font-medium text-slate-300 mb-1">Mesej (opsional)</label>
+          <textarea id="message" name="message" rows="3"
+                    class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition"
+                    placeholder="Jelaskan skop projek atau sebarang nota tambahan..."></textarea>
+        </div>
+
+        <!-- File attachment -->
+        <div>
+          <label for="attachment" class="block text-sm font-medium text-slate-300 mb-1">Lampiran (sokongan)</label>
+          <input type="file" id="attachment" name="attachment"
+                 class="w-full text-sm text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-emerald-600 file:text-white hover:file:bg-emerald-500 transition cursor-pointer"
+                 accept=".pdf,.doc,.docx,.xlsx,.pptx,.jpg,.png,.zip" />
+          <p class="text-xs text-slate-600 mt-1">Maks 10 MB. Format: PDF, Office, imej, ZIP.</p>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit"
+                class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 rounded-lg transition-colors shadow-lg shadow-emerald-900/20">
+          Hantar Permintaan
+        </button>
+
+        <p class="text-xs text-slate-600 text-center mt-4">
+          Data anda selamat & diproses mengikut polisi privasi kami.
+        </p>
+      </form>
     </section>
 
     <!-- ========== FOOTER ========== -->
-    <footer class="border-t border-slate-800 pt-6 mt-8 text-center text-xs text-slate-500 space-y-1">
-      <p>&copy; 2025 SENTINEL-01 Architecture. All rights reserved.</p>
-      <p>Designed by Solo Founder / System Architect</p>
-      <p>Target: Cloud VPS Subsystem &nbsp;|&nbsp; Front-end: GitHub Pages</p>
+    <footer class="mt-16 border-t border-slate-800 pt-6 text-center text-xs text-slate-600 space-y-1">
+      <p>&copy; 2025 Sentinel-01 · Autonomous Micro‑Billing Ecosystem</p>
+      <p>Dibangunkan oleh Solo Founder / System Architect</p>
+      <p>Diperkasa oleh GitHub Pages & Infrastruktur Komputasi Optima</p>
     </footer>
-  </div>
+  </main>
 
-  <!-- External modular script (deferred to not block rendering) -->
-  <script src="script.js" defer></script>
+  <!-- ========== INTERACTIVE SCRIPT (inline for simplicity) ========== -->
+  <script>
+    (function() {
+      // All service cards
+      const cards = document.querySelectorAll('.service-card');
+      // Hidden input to store selected services
+      const hiddenInput = document.getElementById('selected-services-json');
+      // Live summary (optional, can be placed above form)
+      const summaryDiv = document.createElement('div');
+      summaryDiv.className = 'text-sm text-emerald-300 mb-3 min-h-[1.5rem]';
+      const formSection = document.querySelector('section form').parentElement;
+      formSection.insertBefore(summaryDiv, formSection.firstChild);
+
+      // Toggle selection on card click
+      cards.forEach(card => {
+        card.addEventListener('click', (e) => {
+          // Avoid toggling if user clicked inside a link or button (none here)
+          const checkbox = card.querySelector('input[type="checkbox"]');
+          checkbox.checked = !checkbox.checked;
+          updateSelected();
+        });
+      });
+
+      function updateSelected() {
+        const selected = [];
+        cards.forEach(card => {
+          const checkbox = card.querySelector('input[type="checkbox"]');
+          if (checkbox.checked) {
+            const service = card.dataset.service;
+            selected.push(service);
+          }
+        });
+        hiddenInput.value = JSON.stringify(selected);
+
+        if (selected.length === 0) {
+          summaryDiv.textContent = 'Tiada perkhidmatan dipilih.';
+        } else {
+          summaryDiv.textContent = `✅ ${selected.length} perkhidmatan dipilih: ${selected.map(s => s.slice(0,15)+'...').join(', ')}`;
+        }
+      }
+
+      // Optional: pre-check if previously selected? Not needed.
+
+      // Form validation: prevent submission if no service selected
+      const form = document.getElementById('service-request-form');
+      form.addEventListener('submit', (e) => {
+        const selected = JSON.parse(hiddenInput.value || '[]');
+        if (selected.length === 0) {
+          e.preventDefault();
+          alert('Sila pilih sekurang-kurangnya satu perkhidmatan sebelum menghantar permintaan.');
+          return;
+        }
+        // Optional: size limit for file
+        const fileInput = document.getElementById('attachment');
+        if (fileInput.files.length > 0) {
+          const maxSize = 10 * 1024 * 1024; // 10 MB
+          if (fileInput.files[0].size > maxSize) {
+            e.preventDefault();
+            alert('Saiz fail tidak boleh melebihi 10 MB.');
+            return;
+          }
+        }
+      });
+
+      // Also update summary on load (if any pre-checked for debugging)
+      updateSelected();
+    })();
+  </script>
 </body>
 </html>
