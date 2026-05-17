@@ -5,7 +5,7 @@
  * Gantikan URL_APPS_SCRIPT_ANDA dengan URL sebenar.
  */
 
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwp48ayaVHj3z1p3di4b5GVWxBOno7sI4Vgii2B5P_AnGqO4uyB-ppH4avuubFYwEUT/exec'; // 🔁 GANTI DENGAN URL ANDA
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzb4uUzCgFWEvQVCV3y8Kw8uXM26BDLlyVHNYRmkWJ_ZJiIyYoeAevjke55Kk3xMcEA/exec'; // 🔁 GANTI DENGAN URL ANDA
 
 class ServiceSelector {
   constructor() {
