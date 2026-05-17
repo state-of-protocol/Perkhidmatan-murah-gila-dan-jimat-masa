@@ -1,20 +1,15 @@
 /**
- * Sentinel-01 · Service Selection + EmailJS (Enhanced Error Handling)
- * ===================================================================
- * Kredensial:
- *   Service ID  : service_9tdayy2
- *   Public Key  : Y_QxhS-wHUZgQqzw5
- *   Template ID : template_d4slw59
+ * Sentinel-01 · Service Selection + Google Apps Script
+ * ====================================================
+ * Backend: Google Apps Script (Gmail)
+ * Gantikan URL_APPS_SCRIPT_ANDA dengan URL sebenar.
  */
 
-const EMAILJS_PUBLIC_KEY = 'Y_QxhS-wHUZgQqzw5';
-const EMAILJS_SERVICE_ID = 'service_9tdayy2';
-const EMAILJS_TEMPLATE_ID = 'template_d4slw59';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwp48ayaVHj3z1p3di4b5GVWxBOno7sI4Vgii2B5P_AnGqO4uyB-ppH4avuubFYwEUT/exec'; // 🔁 GANTI DENGAN URL ANDA
 
 class ServiceSelector {
   constructor() {
-    emailjs.init(EMAILJS_PUBLIC_KEY);
-
+    // Tiada inisialisasi emailjs diperlukan
     this.cardsContainer = document.querySelector('.grid');
     this.hiddenInput = document.getElementById('selected-services-json');
     this.form = document.getElementById('service-request-form');
@@ -146,47 +141,42 @@ class ServiceSelector {
     this.setFormLoading(true);
 
     try {
-      // Bina parameter asas
-      const templateParams = {
+      const payload = {
         from_email: this.emailInput.value.trim(),
         selected_services: Array.from(this.selectedServices).join(', '),
         message: this.messageInput?.value.trim() || 'Tiada mesej tambahan.'
       };
 
-      // Hanya tambah attachment jika fail dipilih
+      // Lampiran (jika ada)
       if (this.fileInput.files.length > 0) {
         const file = this.fileInput.files[0];
         const base64 = await this.readFileAsBase64(file);
-        templateParams.attachment = {
+        payload.attachment = {
           name: file.name,
           type: file.type,
-          data: base64.split(',')[1] // buang prefix "data:*/*;base64,"
+          data: base64.split(',')[1] // buang "data:*/*;base64,"
         };
       }
-      // Tiada lagi "attachment: null"
 
-      // Cuba hantar
-      const response = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
-      console.log('EmailJS response:', response.status, response.text);
+      const response = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
 
-      this.showSuccess('Permintaan berjaya dihantar! Kami akan hubungi anda melalui emel dalam masa 24 jam.');
-      this.form.reset();
-      document.querySelectorAll('.service-card input[type="checkbox"]').forEach(cb => cb.checked = false);
-      this.syncFromCheckboxes();
-      this.updateUI();
-
-    } catch (error) {
-      // Papar butiran ralat di konsol
-      console.error('EmailJS error:', error);
-      let errorMessage = 'Ralat penghantaran. ';
-      if (error && error.text) {
-        errorMessage += error.text;
-      } else if (error && error.message) {
-        errorMessage += error.message;
+      const result = await response.json();
+      if (result.success) {
+        this.showSuccess('Permintaan berjaya dihantar! Kami akan hubungi anda melalui emel dalam masa 24 jam.');
+        this.form.reset();
+        document.querySelectorAll('.service-card input[type="checkbox"]').forEach(cb => cb.checked = false);
+        this.syncFromCheckboxes();
+        this.updateUI();
       } else {
-        errorMessage += 'Sila cuba lagi sebentar lagi.';
+        throw new Error(result.error || 'Respons tidak dijangka.');
       }
-      this.showError(errorMessage);
+    } catch (error) {
+      console.error('Apps Script error:', error);
+      this.showError('Ralat penghantaran. Sila cuba lagi sebentar lagi.');
     } finally {
       this.setFormLoading(false);
     }
