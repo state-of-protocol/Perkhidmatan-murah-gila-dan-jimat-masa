@@ -1,15 +1,13 @@
 /**
- * Sentinel-01 · Service Selection + Google Apps Script
- * ====================================================
- * Backend: Google Apps Script (Gmail)
- * Gantikan URL_APPS_SCRIPT_ANDA dengan URL sebenar.
+ * Sentinel-01 · Service Selection + Google Apps Script (CORS Ready)
+ * =================================================================
+ * Backend: Google Apps Script dengan CORS & Google Sheets
  */
 
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzb4uUzCgFWEvQVCV3y8Kw8uXM26BDLlyVHNYRmkWJ_ZJiIyYoeAevjke55Kk3xMcEA/exec'; // 🔁 GANTI DENGAN URL ANDA
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzb4uUzCgFWEvQVCV3y8Kw8uXM26BDLlyVHNYRmkWJ_ZJiIyYoeAevjke55Kk3xMcEA/exec';
 
 class ServiceSelector {
   constructor() {
-    // Tiada inisialisasi emailjs diperlukan
     this.cardsContainer = document.querySelector('.grid');
     this.hiddenInput = document.getElementById('selected-services-json');
     this.form = document.getElementById('service-request-form');
@@ -62,9 +60,7 @@ class ServiceSelector {
     const checked = document.querySelectorAll('.service-card input[type="checkbox"]:checked');
     checked.forEach(cb => {
       const card = cb.closest('.service-card');
-      if (card && card.dataset.service) {
-        this.selectedServices.add(card.dataset.service);
-      }
+      if (card && card.dataset.service) this.selectedServices.add(card.dataset.service);
     });
   }
 
@@ -75,12 +71,12 @@ class ServiceSelector {
     if (!this.summaryEl) return;
     const count = this.selectedServices.size;
     if (count === 0) {
-      this.summaryEl.textContent = '✨ Tiada perkhidmatan dipilih. Sila klik kad untuk memilih.';
-      this.summaryEl.className = 'text-sm font-medium text-slate-400 mb-4 min-h-[1.5rem]';
+      this.summaryEl.textContent = '✨ Tiada perkhidmatan dipilih.';
+      this.summaryEl.className = 'text-sm font-medium text-slate-400 mb-4';
     } else {
       const list = Array.from(this.selectedServices).map(s => s.split('-')[1]).join(', ');
       this.summaryEl.textContent = `✅ ${count} perkhidmatan dipilih: ${list}`;
-      this.summaryEl.className = 'text-sm font-medium text-emerald-300 mb-4 min-h-[1.5rem]';
+      this.summaryEl.className = 'text-sm font-medium text-emerald-300 mb-4';
     }
   }
 
@@ -94,18 +90,15 @@ class ServiceSelector {
       this.showError('Sila masukkan alamat emel yang sah.');
       return false;
     }
-    if (this.fileInput.files.length > 0) {
-      if (this.fileInput.files[0].size > this.MAX_FILE_SIZE) {
-        this.showError('Saiz fail tidak boleh melebihi 10 MB.');
-        return false;
-      }
+    if (this.fileInput.files.length > 0 && this.fileInput.files[0].size > this.MAX_FILE_SIZE) {
+      this.showError('Saiz fail tidak boleh melebihi 10 MB.');
+      return false;
     }
     return true;
   }
 
   showError(message) {
-    const old = document.getElementById('form-toast');
-    if (old) old.remove();
+    this.clearToast();
     const toast = document.createElement('div');
     toast.id = 'form-toast';
     toast.className = 'bg-red-900/30 border border-red-800 text-red-300 rounded-lg p-3 my-4 text-sm font-medium animate-pulse';
@@ -115,8 +108,7 @@ class ServiceSelector {
   }
 
   showSuccess(message) {
-    const old = document.getElementById('form-toast');
-    if (old) old.remove();
+    this.clearToast();
     const toast = document.createElement('div');
     toast.id = 'form-toast';
     toast.className = 'bg-emerald-900/30 border border-emerald-800 text-emerald-300 rounded-lg p-3 my-4 text-sm font-medium';
@@ -125,12 +117,15 @@ class ServiceSelector {
     setTimeout(() => toast.remove(), 6000);
   }
 
+  clearToast() {
+    const old = document.getElementById('form-toast');
+    if (old) old.remove();
+  }
+
   setFormLoading(isLoading) {
     if (this.submitBtn) {
       this.submitBtn.disabled = isLoading;
       this.submitBtn.textContent = isLoading ? 'Menghantar...' : 'Hantar Permintaan';
-      this.submitBtn.classList.toggle('opacity-70', isLoading);
-      this.submitBtn.classList.toggle('cursor-wait', isLoading);
     }
   }
 
@@ -147,14 +142,13 @@ class ServiceSelector {
         message: this.messageInput?.value.trim() || 'Tiada mesej tambahan.'
       };
 
-      // Lampiran (jika ada)
       if (this.fileInput.files.length > 0) {
         const file = this.fileInput.files[0];
         const base64 = await this.readFileAsBase64(file);
         payload.attachment = {
           name: file.name,
           type: file.type,
-          data: base64.split(',')[1] // buang "data:*/*;base64,"
+          data: base64.split(',')[1]
         };
       }
 
@@ -165,6 +159,7 @@ class ServiceSelector {
       });
 
       const result = await response.json();
+
       if (result.success) {
         this.showSuccess('Permintaan berjaya dihantar! Kami akan hubungi anda melalui emel dalam masa 24 jam.');
         this.form.reset();
@@ -172,11 +167,11 @@ class ServiceSelector {
         this.syncFromCheckboxes();
         this.updateUI();
       } else {
-        throw new Error(result.error || 'Respons tidak dijangka.');
+        throw new Error(result.error || 'Respons tidak berjaya.');
       }
     } catch (error) {
-      console.error('Apps Script error:', error);
-      this.showError('Ralat penghantaran. Sila cuba lagi sebentar lagi.');
+      console.error('Submission error:', error);
+      this.showError(`Ralat: ${error.message || 'Sila cuba lagi.'}`);
     } finally {
       this.setFormLoading(false);
     }
