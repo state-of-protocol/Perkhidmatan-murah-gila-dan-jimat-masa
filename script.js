@@ -1,9 +1,8 @@
 /**
- * Sentinel-01 · Service Selection + Google Apps Script (CORS Ready)
- * =================================================================
- * Backend: Google Apps Script dengan CORS & Google Sheets
+ * Sentinel-01 · Service Selection + Google Apps Script (No-CORS Trick)
+ * ===================================================================
+ * Menggunakan Content-Type: text/plain untuk mengelakkan preflight CORS.
  */
-
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzb4uUzCgFWEvQVCV3y8Kw8uXM26BDLlyVHNYRmkWJ_ZJiIyYoeAevjke55Kk3xMcEA/exec';
 
 class ServiceSelector {
@@ -152,9 +151,10 @@ class ServiceSelector {
         };
       }
 
+      // PERUBAHAN PENTING: Content-Type text/plain untuk elak preflight
       const response = await fetch(APPS_SCRIPT_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(payload)
       });
 
